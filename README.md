@@ -8,7 +8,7 @@ the Play Framework, version 2.4.2.
 
 1. install java 1.8
 2. install Play Framework activator 2.4.2 <http://www.playframework.com/>
-3. add `PLAY_PATH` environment variable pointing to play installation
+3. add `PLAY_PATH` environment variable pointing to Play installation
 4. `cd` to playflow project directory
 5. do `activator test` to run tests
 6. do `activator run` to run the application
@@ -34,10 +34,10 @@ is implemented in Play Framework, it is also fun and good for your health.
 
 * Project: Has a set of Work Items to be processed.
 
-* Work Item: a piece of work that is completed via the set of Stations in 
-  a Factory.  It may, but doesn't need to be, part of a project.
+* Work Item: a piece of work that is completed via the set of stations in 
+  a factory.  It may, but doesn't need to be, part of a project.
 
-* Work Item History: an auditing record of a Work Item's State transitions.
+* Work Item History: an auditing record of a work item's State transitions.
   A transition is added to the history every time a work item is processed, 
   changes assignee, or moves to a different station (service calls
   `assign`, `process`, and `next`--see below-- all invoke state transitions).
@@ -48,14 +48,14 @@ is implemented in Play Framework, it is also fun and good for your health.
   worker), or `COMPLETED` (all work at at all stations in the factory has been 
   completed).
 
-* Factory: Has an assembly line for processing projects.
+* Factory: Has an assembly line for processing a project's work items.
 
 * Assembly Line: Has a set of stations in which work items are 
   processed.
 
 * Station: Has workers that process work items.
  
-* Worker: a user that processes work items at a particular Station.
+* Worker: a user that processes work items at a particular station.
 
 * Free Queue: a station's work items that have not yet been claimed by a 
   Worker.
@@ -114,19 +114,19 @@ one of those stations:
 * use `GET:/api/stations?workerId=<userId>` to get the list of user stations
 * use `GET:/api/workItems?stationId=<stationId>&state=unassigned` to get 
   the list of unassigned items at a particular station.
-* use `POST:/api/workItems/:workItemId/assign?assigneeId=<userId>` to
+* use `POST:/api/workItems/<workItemId>/assign?assigneeId=<userId>` to
   assign one of those unassigned work items to the worker.
-* use `POST:/api/workItems/:workItemId/process` service to indicate item
+* use `POST:/api/workItems/<workItemId>/process` service to indicate item
   has been processed.
-* use `GET:/api/stations/:stationId` to get the `nextStationId`.
-* use `POST:/api/workItems/:workItemId/next?nextStationId=<nextStationId>` 
+* use `GET:/api/stations/<stationId>` to get the `nextStationId`.
+* use `POST:/api/workItems/<workItemId>/next?nextStationId=<nextStationId>` 
   service to move the item to the next station.
 
 Admin needs to move a worker's items back to the station's free queue because
 the worker is sick.
 * use `GET:/api/workItems?assigneeId=<userId>` to get all 
   the sick worker's work items.
-* use `POST:/api/workItems/:workItemId/assign` service without specifying 
+* use `POST:/api/workItems/<workItemId>/assign` service without specifying 
   an assigneeId to move them back to an unassigned state at the current
   station.
 
