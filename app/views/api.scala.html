@@ -1,0 +1,286 @@
+@main("Playflow") {
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<style>
+th, td {
+	padding-left: 30px;
+	text-align: left;
+}
+</style>
+</head>
+<body>
+
+ <h2>Projects</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/projects</td>
+   <td>lists all active projects</td>
+   <td>JSON workItems</td>
+   <td>url: 'state' (initial, in_process, completed)</td>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/projects/:projectId</td>
+   <td>gets one project</td>
+   <td>JSON workItem</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/projects</td>
+   <td>creates a new project</td>
+   <td>JSON workItem</td>
+   <td>body: new project JSON</td>
+  </tr>
+  <tr>
+   <td>PUT</td>
+   <td>/api/projects/:projectId</td>
+   <td>updates a project</td>
+   <td>JSON workItem</td>
+   <td>body: project JSON to update</td>
+  </tr>
+  <tr>
+   <td>DELETE</td>
+   <td>/api/projects/:projectId</td>
+   <td>deletes project</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/projects/:projectId/assign</td>
+   <td>assigns a project to a factory (unassigns for null
+    'factoryId')</td>
+   <td>JSON workItem</td>
+   <td>url: 'factoryId', 'transitionerId', 'comment'</td>
+  </tr>
+ </table>
+ <br>
+ <br>
+ <h2>Work Items</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/workItems</td>
+   <td>lists active workItems</td>
+   <td>JSON workItems</td>
+   <td>url: 'projectId', 'assigneeId', 'stationId', 'state'
+    (initial, unassigned, in_process, processed, completed)</td>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/workItems/:workItemId</td>
+   <td>get single workItem</td>
+   <td>JSON workItem</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/workItems</td>
+   <td>creates a new workItem</td>
+   <td>JSON workItem</td>
+   <td>body: new workItem JSON</td>
+  </tr>
+  <tr>
+   <td>PUT</td>
+   <td>/api/workItems/:workItemId</td>
+   <td>updates a workItem</td>
+   <td>JSON workItem</td>
+   <td>body: workItem JSON to update</td>
+  </tr>
+  <tr>
+   <td>DELETE</td>
+   <td>/api/workItems/:workItemId</td>
+   <td>deletes workItem</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/workItems/:workItemId/assign</td>
+   <td>assigns a workItem to a user (unassigns for null
+    'assigneeId')</td>
+   <td>JSON workItem</td>
+   <td>url: 'assigneeId', 'transitionerId', 'comment'</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/workItems/:workItemId/process</td>
+   <td>indicates that a workItem has been processed</td>
+   <td>JSON workItem</td>
+   <td>url: 'transitionerId', 'comment'</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/workItems/:workItemId/next</td>
+   <td>moves a workItem to the next station (out of all stations
+    for null 'nextStationId')</td>
+   <td>JSON workItem</td>
+   <td>url: 'nextStationId', 'transitionerId', 'comment'</td>
+  </tr>
+ </table>
+ <br>
+ <br>
+ <h2>Work Item History</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/workItems/:workItemId/history</td>
+   <td>gets history of workItem state transitions</td>
+   <td>JSON workItemStateTransitions</td>
+  </tr>
+ </table>
+ <br>
+ <br>
+ <h2>Factories</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/factories</td>
+   <td>lists active factories</td>
+   <td>JSON factories</td>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/factories/:factoryId</td>
+   <td>get single factory</td>
+   <td>JSON factory</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/factories</td>
+   <td>creates a new factory</td>
+   <td>JSON factory</td>
+   <td>body: new factory JSON</td>
+  </tr>
+  <tr>
+   <td>PUT</td>
+   <td>/api/factories/:factoryId</td>
+   <td>updates a factory</td>
+   <td>JSON factory</td>
+   <td>body: factory JSON to update</td>
+  </tr>
+  <tr>
+   <td>DELETE</td>
+   <td>/api/factories/:factoryId</td>
+   <td>deletes factory</td>
+  </tr>
+ </table>
+ <br>
+ <br>
+ <h2>Stations</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/stations</td>
+   <td>lists active stations</td>
+   <td>JSON stations</td>
+   <td>url: 'factoryId', 'projectId', 'workerId'</td>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/stations/:stationId</td>
+   <td>get single station</td>
+   <td>JSON station</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/stations</td>
+   <td>creates a new station</td>
+   <td>JSON station</td>
+   <td>body: new station JSON</td>
+  </tr>
+  <tr>
+   <td>PUT</td>
+   <td>/api/stations/:stationId</td>
+   <td>updates a station</td>
+   <td>JSON station</td>
+   <td>body: station JSON to update</td>
+  </tr>
+  <tr>
+   <td>DELETE</td>
+   <td>/api/stations/:stationId</td>
+   <td>deletes station</td>
+  </tr>
+ </table>
+ <br>
+ <br>
+ <h2>Users</h2>
+ <table>
+  <tr>
+   <th>METHOD</th>
+   <th>URL</th>
+   <th>DESCRIPTION</th>
+   <th>RETURNS</th>
+   <th>PARAMETERS</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/users</td>
+   <td>lists active users</td>
+   <td>JSON users</td>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/api/users/:userId</td>
+   <td>get single user</td>
+   <td>JSON user</td>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/api/users</td>
+   <td>creates a new user</td>
+   <td>JSON user</td>
+   <td>body: new user JSON</td>
+  </tr>
+  <tr>
+   <td>PUT</td>
+   <td>/api/users/:userId</td>
+   <td>updates a user</td>
+   <td>JSON user</td>
+   <td>body: user JSON to update</td>
+  </tr>
+  <tr>
+   <td>DELETE</td>
+   <td>/api/users/:userId</td>
+   <td>deletes user</td>
+  </tr>
+ </table>
+
+</body>
+</html>
+
+}
