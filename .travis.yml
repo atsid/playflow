@@ -1,0 +1,12 @@
+language: scala
+scala:
+  - 2.10.4
+  - 2.11.1
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION scoverage:test coveralls
+jdk:
+  - oraclejdk7
+notifications:
+  email:
+    - bensonbryan@hotmail.com
+
