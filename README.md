@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/atsid/playflow/badge.svg?branch=master&service=github)](https://coveralls.io/github/atsid/playflow?branch=master)
+
 # Playflow Web Services
 
 Playflow defines RESTful web services for a kanban-style factory workflow using
