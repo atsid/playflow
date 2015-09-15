@@ -133,63 +133,63 @@ the worker is sick.
 
 #### FAQ
 
-  Can a Factory have QA?
+Can a Factory have QA?
 * Yes, just add a station for QA directly after the station that needs to be 
   QAed.  From the QA station, use the `next` service with the previous 
   station's ID specified as a parameter to reject a Work Item to the 
   previous station.
 
-  Can a Factory have a gating Station before Work Items enter an Assembly Line 
-  or before Work Items are released from the factory?
+Can a Factory have a gating Station before Work Items enter an Assembly Line 
+or before Work Items are released from the factory?
 * Yes,  a factory manager, for example, can be assigned as the sole worker in 
   the first Station.  He can then be the one to gate work for the rest of the
   assembly line.  Likewise, a factory manager can be assigned as the sole 
   worker in the last station gating release of the project.
 
-  Do stations in an assembly line need to be ordered? 
+Do stations in an assembly line need to be ordered? 
 * No. A station object may or may not specify a next station and even 
   if it does specify a next station, nothing enforces this ordering
   (your application can either use or ignore this information when 
   specifying a `nextStationId` parameter for the `next` service call).
 
-  Can a Factory have branching and merging stations?
+Can a Factory have branching and merging stations?
 * Yes. The branch `stationId` must be specified in the parameters of `next` 
   service call. Merging is handled in the same way (by specifying the 
   merge `stationId` in the `next` service call).
 
-  Can a Factory have two assembly lines?
+Can a Factory have two assembly lines?
 * No. A factory has only one assembly line, but you can simulate the presence 
   of multiple assembly lines by branching (see above).
 
-  Can work items be transfered to a different factory?
+Can work items be transfered to a different factory?
 * Yes. Any `stationId` at any factory can be specified in the `next` service 
   call.
   
-  Can a project be split between two or more factories?
+Can a project be split between two or more factories?
 * Yes. Any work item can be assigned to any station at any factory via the 
   `next` service call.  The project `assign` convenience method, however, 
   assigns the entire project to a single factory.
   
-  Can work items be reassigned to a different worker?
+Can work items be reassigned to a different worker?
 * Yes. Use the `assign` service to reassign Work Items.
 
-  Do projects move sequentially or concurrently through the assembly line?
+Do projects move sequentially or concurrently through the assembly line?
 * Concurrently (they move at whatever pace the workers at the various stations 
   finish the project's work items).  This means that a single worker at a 
   single station may simultaneously have work items from several different 
   projects in his or her work queue.  Use projectId to distinguish the 
   different projects returned from the Work Items services. 
 
-  Are any of the objects validated?  For example, does a Factory need to be 
-  created with a first and last station? Or do Work Items need to have a 
-  particular state before they can be the subject of an `assign`, 
-  `process` or `next` service call?
+Are any of the objects validated?  For example, does a Factory need to be 
+created with a first and last station? Or do Work Items need to have a 
+particular state before they can be the subject of an `assign`, 
+`process` or `next` service call?
 * No, objects are not validated at creation time, nor at any other time 
   excepting when a project is assigned to a factory that doesn't have a 
   first station or a service is being called for an object that doesn't
   exist. Your application can add additional validation.
   
-  Where are completed work items stored?
+Where are completed work items stored?
 * A workItem can only be completed after being processed in a
   factory's last station(s) so completed work items will always be
   stored at that last station(s).
