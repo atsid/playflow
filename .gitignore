@@ -1,0 +1,11 @@
+logs
+project/project
+project/target
+target
+bin
+.classpath
+.project
+RUNNING_PID
+.settings
+.cache-main
+.cache-tests
