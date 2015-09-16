@@ -10,11 +10,10 @@ the Play Framework, version 2.4.2.
 
 1. install java 1.8
 2. install Play Framework activator 2.4.2 <http://www.playframework.com/>
-3. add `PLAY_PATH` environment variable pointing to Play installation
-4. `cd` to playflow project directory
-5. do `activator test` to run tests
-6. do `activator run` to run the application
-7. go to <http://localhost:9000/api> to view the api
+3. `cd` to playflow project directory
+4. do `activator test` to run tests
+5. do `activator run` to run the application
+6. go to <http://localhost:9000/api> to view the api
 
 
 #### Motivation
