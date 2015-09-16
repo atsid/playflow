@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/atsid/playflow.svg?branch=master)](https://travis-ci.org/atsid/playflow)
 [![Coverage Status](https://coveralls.io/repos/atsid/playflow/badge.svg?branch=master&service=github)](https://coveralls.io/github/atsid/playflow?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752)
 
 # Playflow Web Services
 
