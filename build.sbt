@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   javaJpa,
-  "org.mockito" % "mockito-core" % "1.9.5"
+  "org.mockito" % "mockito-core" % "1.10.19"
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the
