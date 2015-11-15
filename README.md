@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/atsid/playflow.svg?branch=master)](https://travis-ci.org/atsid/playflow)
 [![Coverage Status](https://coveralls.io/repos/atsid/playflow/badge.svg?branch=master&service=github)](https://coveralls.io/github/atsid/playflow?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752)
+[![Dependency Status](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55f8d3423ed894001e000752)projects/55f8d3423ed894001e000752)
 
 # Playflow Web Services
 
@@ -50,6 +50,13 @@ is implemented in Play Framework, it is also fun and good for your health.
   (being worked on by station worker), `PROCESSED` (work completed by a station 
   worker), or `COMPLETED` (all work at at all stations in the factory has been 
   completed).
+  
+* Project State: Can be `INITIAL` (at least one project work item not yet in 
+  a factory), `IN_PROCESS` (no initial work items and at least one work item 
+  still being worked on at factory stations), or `COMPLETED` (all work items 
+  in the project have been completed). Note that projects do not have a separate
+  audit history as project history is just the sum of all the histories of its
+  work items. 
 
 * Factory: Has an assembly line for processing a project's work items.
 
@@ -61,14 +68,14 @@ is implemented in Play Framework, it is also fun and good for your health.
 * Worker: a user that processes work items at a particular station.
 
 * Free Queue: a station's work items that have not yet been claimed by a 
-  Worker.
+  Worker (i.e. work items without an `assignee`)
 
 * Project `assign` Service Call: service call that assigns a project
   to a factory (puts the project's work items into the first station in the
   factory's assembly line).
   
 * Work item `assign` Service Call: service call that assigns a work 
-  item to a worker (assignee). 
+  item to a worker (`assignee`). 
 
 * Work item `process` Service Call: service call that indicates that a work item 
   has been processed by a worker at a station.
@@ -104,10 +111,10 @@ Admin needs to create a new project with work items:
   previously created project.
 
 Admin needs to move a project into a factory:
-* use `POST:/api/projects/assign?factoryId=<factoryId>`
+* use `POST:/api/projects/<projectId>/assign?factoryId=<factoryId>`
 
 Admin needs to move a project out of all factories:
-* use `POST:/api/projects/assign` service without specifying a factoryId
+* use `POST:/api/projects/<projectId>/assign` service without specifying a factoryId
 
 Worker needs to see work items he has been assigned but has not completed:
 * use `GET:/api/workItems?state=in_process&assigneeId=<userId>`
@@ -136,6 +143,10 @@ the worker is sick.
 
 #### FAQ
 
+Which databases are compatible with playflow?
+* An in-memory H2 database is built-in for testing.  Your application can use
+  any SQL database.  Just configure play with the jdbc driver and url.
+  
 Can a Factory have QA?
 * Yes, just add a station for QA directly after the station that needs to be 
   QAed.  From the QA station, use the `next` service with the previous 
@@ -196,3 +207,48 @@ Where are completed work items stored?
 * A workItem can only be completed after being processed in a
   factory's last station(s) so completed work items will always be
   stored at that last station(s).
+  
+#### Routes 
+(Services expect and return JSON. Specifics at <http://localhost:9000/api>)
+
+Projects:
+* `GET     /api/projects`                                                       
+* `GET     /api/projects/<projectId>`                                              
+* `POST    /api/projects`                                                         
+* `PUT     /api/projects/<projectId>`                                              
+* `DELETE  /api/projects/<projectId>`                                              
+* `POST    /api/projects/<projectId>/assign`                                       
+
+Work Items:
+* `GET     /api/workItems`                                                        
+* `GET     /api/workItems/<workItemId>`                                            
+* `POST    /api/workItems`                                                        
+* `PUT     /api/workItems/<workItemId>`                                            
+* `DELETE  /api/workItems/<workItemId>`                                           
+* `POST    /api/workItems/<workItemId>/assign`                                     
+* `POST    /api/workItems/<workItemId>/process`                                    
+* `POST    /api/workItems/<workItemId>/next`                                       
+
+WorkItemHistory:
+* `GET     /api/workItems/<workItemId>/history`                                    
+
+Factories:
+* `GET     /api/factories`                                                        
+* `GET     /api/factories/<factoryId>`                                            
+* `POST    /api/factories`                                                        
+* `PUT     /api/factories/<factoryId>`                                             
+* `DELETE  /api/factories/<factoryId>`                                             
+
+Stations:
+* `GET     /api/stations`                                                         
+* `GET     /api/stations/<stationId>`                                              
+* `POST    /api/stations`                                                         
+* `PUT     /api/stations/<stationId>`                                              
+* `DELETE  /api/stations/<stationId>`                                              
+
+Users
+* `GET     /api/users`                                                            
+* `GET     /api/users/<userId>`                                                    
+* `POST    /api/users`                                                            
+* `PUT     /api/users/<userId>`                                                   
+* `DELETE  /api/users/<userId>`                                                    
